@@ -37,8 +37,6 @@ public class ChatService {
         List<Message> all = messageMap.getOrDefault(roomId, new ArrayList<>());
         RoomClientKey key = new RoomClientKey(clientId, roomId);
         LocalDateTime lastRead = clientsRead.get(key);
-        System.out.println("읽은 시점 값: "+lastRead);
-        System.out.println(all);
         if(lastRead == null) return all;
 
         List<Message> unRead = new ArrayList<>();
