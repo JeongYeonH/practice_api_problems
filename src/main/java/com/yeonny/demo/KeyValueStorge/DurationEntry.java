@@ -11,6 +11,8 @@ public class DurationEntry {
     private String key;
     private LocalDateTime time;
 
+    public DurationEntry() {}
+
     public DurationEntry(StorgeDto storgeDto){
         this.key = storgeDto.key;
         this.time = LocalDateTime.now().plusSeconds(storgeDto.seconds); 

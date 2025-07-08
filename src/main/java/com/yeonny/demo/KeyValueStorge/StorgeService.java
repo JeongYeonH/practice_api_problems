@@ -3,6 +3,7 @@ package com.yeonny.demo.KeyValueStorge;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Service
 public class StorgeService {
@@ -20,9 +23,6 @@ public class StorgeService {
 
     public StorgeService() throws Exception{
         loadToFile();
-        for(Map.Entry<String, String> obj : storge.entrySet()){
-            System.out.println(obj.getKey() + ": " + obj.getValue());
-        }
     }
 
     public void putIn(StorgeDto storgeDto) throws Exception{
@@ -30,9 +30,10 @@ public class StorgeService {
         saveToFile();
     }
 
-    public void setTime(StorgeDto storgeDto){
+    public void setTime(StorgeDto storgeDto) throws Exception{
         DurationEntry durationEntry = new DurationEntry(storgeDto);
         durationEntries.offer(durationEntry);
+        saveToFile();
     }
 
     public String getValue(String key){
@@ -46,12 +47,18 @@ public class StorgeService {
         while(!durationEntries.isEmpty() && durationEntries.peek().getTime().isBefore(now)){
             DurationEntry entry = durationEntries.poll();
             storge.remove(entry.getKey());
+            System.out.println("다음이 삭제되었습니다: " + entry.getKey());
         }
     }
+
 
     private void saveToFile() throws Exception{
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(new File("storge.json"), storge);
+        
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.writeValue(new File("queue.json"), durationEntries);
     }
 
     private void loadToFile() throws Exception{
@@ -59,5 +66,14 @@ public class StorgeService {
         storge = objectMapper.readValue(
             new File("storge.json"),
             new TypeReference<Map<String, String>>() {} );
+
+        objectMapper.registerModules(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        List<DurationEntry> entryList = objectMapper.readValue(
+            new File("queue.json"),
+            new TypeReference<List<DurationEntry>>() {});
+        
+        durationEntries.addAll(entryList);
     }
 }

@@ -20,7 +20,7 @@ public class Controller {
     }
 
     @PostMapping("/storge/set-time")
-    public void setTime(@RequestBody StorgeDto storgeDto){
+    public void setTime(@RequestBody StorgeDto storgeDto) throws Exception{
         storgeService.setTime(storgeDto);
     }
 
