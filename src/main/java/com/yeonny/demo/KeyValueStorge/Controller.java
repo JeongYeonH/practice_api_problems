@@ -15,7 +15,7 @@ public class Controller {
     private final StorgeService storgeService;
 
     @PostMapping("/storge/put-in")
-    public void putIn(@RequestBody StorgeDto storgeDto){
+    public void putIn(@RequestBody StorgeDto storgeDto) throws Exception{
         storgeService.putIn(storgeDto);
     }
 
