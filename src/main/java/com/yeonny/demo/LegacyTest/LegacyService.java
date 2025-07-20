@@ -1,7 +1,6 @@
 package com.yeonny.demo.LegacyTest;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -40,14 +39,19 @@ public class LegacyService {
 
         switch (order) {
             case "health":
-                
+                health += 3;
                 break;
-        
+            case "reverse":
+                dir *= -1;
+                break;
+            case "NA":
+                break;
             default:
                 break;
         }
 
+        map.put(name, new int[] {pos, health, point, dir});    
 
-        return null;
+        return "유저: " + name + ", 위치:채력:점수:방향" + pos+":"+health+":"+point+":"+dir;
     }
 }
