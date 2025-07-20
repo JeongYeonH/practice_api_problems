@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class LegacyService {
     private String[][] paths 
-    = new String[][] {{"0", "health" },{"1", "NA" },{"2", "NA"},{"3", "reverse"},
+    = new String[][] {{"0", "Na" },{"1", "health" },{"2", "NA"},{"3", "reverse"},
                         {"4", "NA"},{"5", "reverse"},{"6", "health"},{"7", "NA"},
-                        {"8", "health"},{"9", "reverse"},{"10", "NA"},{"11", "health"}};
+                        {"8", "health"},{"9", "reverse"},{"10", "health"},{"11", "NA"}};
     private Map<String, int[]> map = new HashMap<>();
 
     public String move(LegacyDto legacyDto){
@@ -52,6 +52,6 @@ public class LegacyService {
 
         map.put(name, new int[] {pos, health, point, dir});    
 
-        return "유저: " + name + ", 위치:채력:점수:방향" + pos+":"+health+":"+point+":"+dir;
+        return "유저: " + name + ", 위치:채력:점수:방향 - " + pos+":"+health+":"+point+":"+dir;
     }
 }
