@@ -16,6 +16,7 @@ public class LegacyService {
 
     public String move(LegacyDto legacyDto){
         String name = legacyDto.userName;
+        int range = legacyDto.moveRange;
         if(!map.containsKey(name)){
             map.put(name, new int[]{0, 3, 0, 1});
         }
@@ -26,8 +27,24 @@ public class LegacyService {
         int point = currUserInfo[2];
         int dir = currUserInfo[3];
         
-        if(health - legacyDto.moveRange < 0){
+        if(health - range < 0){
             return "체력이 부족합니다";
+        }
+        if(pos + (dir*range) < 0 || pos + (dir*range) > 11){
+            return "범위를 벗어났습니다";
+        }
+
+        point += range;
+        pos += (dir*range);
+        String order = paths[pos][1];
+
+        switch (order) {
+            case "health":
+                
+                break;
+        
+            default:
+                break;
         }
 
 
