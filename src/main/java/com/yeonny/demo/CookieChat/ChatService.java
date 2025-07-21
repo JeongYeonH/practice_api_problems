@@ -30,7 +30,7 @@ public class ChatService {
         String roomName = messageDto.roomId;
         String userName = messageDto.userId;
         String userReadTime = userMap.getOrDefault(
-            roomName, new String[]{userName, null})[1];
+            userName, new String[]{roomName, null})[1];
         LocalDateTime pivotTime; 
         if(userReadTime == null){
             pivotTime = LocalDateTime.MIN;
@@ -44,5 +44,12 @@ public class ChatService {
         .collect(Collectors.toList());
 
         return messageList;
+    }
+
+    public String setTime(MessageDto messageDto){
+        String[] userInfo = userMap.getOrDefault(messageDto.userId, new String[]{messageDto.roomId, null});
+        userInfo[1] = messageDto.time;
+        
+        return "시간이 설정되었습니다";
     }
 }

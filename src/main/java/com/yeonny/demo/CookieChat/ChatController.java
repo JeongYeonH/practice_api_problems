@@ -26,4 +26,10 @@ public class ChatController {
         List<Message> list = chatService.showMessage(messageDto);
         return list;
     }
+
+    @PostMapping("chat/setTime")
+    public String setTime(@RequestBody MessageDto messageDto){
+        String response = chatService.setTime(messageDto);
+        return response;
+    }
 }
